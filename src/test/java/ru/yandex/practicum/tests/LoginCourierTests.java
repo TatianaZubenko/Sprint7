@@ -26,13 +26,13 @@ public class LoginCourierTests extends BaseTest{
         courier.withLogin(RandomStringUtils.randomAlphabetic(12))
                 .withPassword(RandomStringUtils.randomAlphabetic(10))
                 .withFirstName(RandomStringUtils.randomAlphabetic(11));
+        courierSteps.createCourier(courier);
     }
 
     @Test
     @DisplayName("Курьер может авторизоваться, введены все обязательные поля")
     public void shouldLoginCourierTest() {
 
-        courierSteps.createCourier(courier);
         courierSteps.loginCourier(courier)
                 .statusCode(200)
                 .body("id", notNullValue());
@@ -42,7 +42,6 @@ public class LoginCourierTests extends BaseTest{
     @DisplayName("Система вернёт ошибку, если неправильно указать логин")
     public void shouldNotLoginCourierTestAnotherLogin() {
 
-        courierSteps.createCourier(courier);
         courier.withLogin(RandomStringUtils.randomAlphabetic(12));
         courierSteps.loginCourier(courier)
                 .statusCode(404)
@@ -53,7 +52,6 @@ public class LoginCourierTests extends BaseTest{
     @DisplayName("Система вернёт ошибку, если неправильно указать пароль")
     public void shouldNotLoginCourierTestAnotherPassword() {
 
-        courierSteps.createCourier(courier);
         courier.withPassword(RandomStringUtils.randomAlphabetic(10));
         courierSteps.loginCourier(courier)
                 .statusCode(404)
@@ -64,7 +62,6 @@ public class LoginCourierTests extends BaseTest{
     @DisplayName("Система вернёт ошибку, если не указать логин")
     public void shouldNotLoginCourierTestWithoutLogin() {
 
-        courierSteps.createCourier(courier);
         courier.withLogin("");
         courierSteps.loginCourier(courier)
                 .statusCode(400)
@@ -75,7 +72,6 @@ public class LoginCourierTests extends BaseTest{
     @DisplayName("Система вернёт ошибку, если не указать пароль")
     public void shouldNotLoginCourierTestWithoutPassword() {
 
-        courierSteps.createCourier(courier);
         courier.withPassword("");
         courierSteps.loginCourier(courier)
                 .statusCode(400)
@@ -86,7 +82,6 @@ public class LoginCourierTests extends BaseTest{
     @DisplayName("Если авторизоваться под несуществующим пользователем, запрос возвращает ошибку")
     public void shouldNotLoginCourierTestAnotherLoginAndPassword() {
 
-        courierSteps.createCourier(courier);
         courier.withLogin(RandomStringUtils.randomAlphabetic(12))
                 .withPassword(RandomStringUtils.randomAlphabetic(10));
         courierSteps.loginCourier(courier)
